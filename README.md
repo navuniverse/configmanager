@@ -3,7 +3,7 @@ Uploading App Config to AWS Parameter Store
 
 This is a utility tool using which you can upload your application config to AWS Parameter Store. You need to provide the CSV file of config properties you wish to upload on Parameter Store along with the environment (Development/Production) to correctly select the connection.
 
-Before running the utility, just make sure to update the AWS Access Key and Secret Key in application.properties for your Dev and Prod Environment.
+Before running the utility, just make sure to update the AWS Access Key and Secret Key in ``application.properties`` for your Dev and Prod Environment.
 
 Run the utility as Spring Boot Application and prepare your config in given file format according to ``sample.csv`` in ``src/main/resources``
 
