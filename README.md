@@ -5,6 +5,6 @@ This is a utility tool using which you can upload your application config to AWS
 
 Before running the utility, just make sure to update the AWS Access Key and Secret Key in application.properties for your Dev and Prod Environment.
 
-Run the utility as Spring Boot Application and prepare your config in given file format according to sample.csv in src/main/resources
+Run the utility as Spring Boot Application and prepare your config in given file format according to ``sample.csv`` in ``src/main/resources``
 
-You can use the Swagger UI for the Utility to upload the Config using - http://localhost:8080/config/swagger-ui.html
+You can use the Swagger UI for the Utility to upload the Config using - `http://localhost:8080/config/swagger-ui.html`
