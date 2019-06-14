@@ -1,5 +1,12 @@
 # Compiled class file
 *.class
+bin/
+target/
+
+# IDE
+.classpath
+.project
+.settings
 
 # Log file
 *.log
