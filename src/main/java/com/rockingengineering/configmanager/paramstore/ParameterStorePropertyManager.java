@@ -143,9 +143,12 @@ public class ParameterStorePropertyManager {
 								.withName(parameterDto.getKey())
 								.withValue(parameterDto.getValue())
 								.withType(parameterType)
-								.withKeyId(kmsId)
 								.withDescription(parameterDto.getDescription());
 
+				if (ParameterType.SecureString == parameterType) {
+                                       putParameterRequest = putParameterRequest.withKeyId(kmsId);
+                                }
+				
 				if (parameterDto.getTags().isEmpty()) {
 					putParameterRequest = putParameterRequest.withOverwrite(true);
 				} else {
