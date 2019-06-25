@@ -16,15 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.amazonaws.auth.AWSCredentialsProvider;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagement;
-import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagementClientBuilder;
 import com.amazonaws.services.simplesystemsmanagement.model.ParameterType;
 import com.amazonaws.services.simplesystemsmanagement.model.PutParameterRequest;
 import com.amazonaws.services.simplesystemsmanagement.model.PutParameterResult;
 import com.amazonaws.services.simplesystemsmanagement.model.Tag;
+import com.rockingengineering.configmanager.config.AWSCredentialProvider;
 import com.rockingengineering.configmanager.dto.ConfigEnvironment;
 import com.rockingengineering.configmanager.dto.ConfigFileHeaders;
 import com.rockingengineering.configmanager.dto.ParameterDto;
@@ -123,7 +120,7 @@ public class ParameterStorePropertyManager {
 
 	private void saveParameters(List<ParameterDto> parameterDtos, ConfigEnvironment configEnvironment) {
 
-		AWSSimpleSystemsManagement awsSimpleSystemsManagement = getAwsSystemManager(configEnvironment);
+		AWSSimpleSystemsManagement awsSimpleSystemsManagement = AWSCredentialProvider.getCredential(configEnvironment);
 		String kmsId = environment.getProperty("aws.ssm.kms.key");
 
 		if (ConfigEnvironment.PROD == configEnvironment) {
@@ -146,9 +143,9 @@ public class ParameterStorePropertyManager {
 								.withDescription(parameterDto.getDescription());
 
 				if (ParameterType.SecureString == parameterType) {
-                                       putParameterRequest = putParameterRequest.withKeyId(kmsId);
-                                }
-				
+					putParameterRequest = putParameterRequest.withKeyId(kmsId);
+				}
+
 				if (parameterDto.getTags().isEmpty()) {
 					putParameterRequest = putParameterRequest.withOverwrite(true);
 				} else {
@@ -175,26 +172,4 @@ public class ParameterStorePropertyManager {
 
 	}
 
-	private AWSSimpleSystemsManagement getAwsSystemManager(ConfigEnvironment configEnvironment) {
-
-		String accessKey = environment.getProperty("aws.ssm.access.key");
-		String secretKey = environment.getProperty("aws.ssm.secret.key");
-
-		if (ConfigEnvironment.PROD == configEnvironment) {
-			accessKey = environment.getProperty("aws.ssm.prod.access.key");
-			secretKey = environment.getProperty("aws.ssm.prod.secret.key");
-		}
-
-		AWSCredentialsProvider credentials =
-				new AWSStaticCredentialsProvider(
-						new BasicAWSCredentials(accessKey, secretKey));
-
-		System.out.println("Generated AWS Credentials for Parameters");
-
-		return AWSSimpleSystemsManagementClientBuilder
-				.standard()
-				.withCredentials(credentials)
-				.withRegion(environment.getProperty("aws.ssm.region"))
-				.build();
-	}
 }

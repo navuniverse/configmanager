@@ -4,6 +4,7 @@
 package com.rockingengineering.configmanager.dto;
 
 import java.util.Collection;
+import java.util.Date;
 
 import com.amazonaws.services.simplesystemsmanagement.model.Tag;
 
@@ -36,4 +37,10 @@ public class ParameterDto {
 	private String description;
 
 	private Collection<Tag> tags;
+
+	private String type;
+
+	private long version;
+
+	private Date lastModifiedDate;
 }
