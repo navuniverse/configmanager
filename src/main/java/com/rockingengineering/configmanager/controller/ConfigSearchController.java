@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,9 +34,9 @@ public class ConfigSearchController {
 	@Autowired
 	private SearchPropertyService searchPropertyService;
 
-	@GetMapping("property/{name}")
+	@GetMapping("property")
 	public ResponseEntity<ParameterDto> getPropertyByName(
-			@PathVariable(name = "name", required = true) @NotBlank(message = "Property Name is Mandatory") String name,
+			@RequestParam(name = "name", required = true) @NotBlank(message = "Property Name is Mandatory") String name,
 			@RequestParam(name = "configEnv", required = true) @NotNull ConfigEnvironment configEnvironment) {
 
 		System.out.println("Requesting Value for Property: " + name + " from Environment: " + configEnvironment);
@@ -54,7 +53,7 @@ public class ConfigSearchController {
 
 	}
 
-	@GetMapping("property/prefix/{prefix}")
+	@GetMapping("property/prefix")
 	public ResponseEntity<List<ParameterDto>> getPropertyByPrefix(
 			@RequestParam(name = "prefix", required = true) @NotBlank(message = "Prefix is Mandatory") String prefix,
 			@RequestParam(name = "configEnv", required = true) @NotNull ConfigEnvironment configEnvironment) {
