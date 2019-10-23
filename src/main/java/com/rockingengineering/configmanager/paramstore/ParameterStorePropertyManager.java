@@ -105,7 +105,7 @@ public class ParameterStorePropertyManager {
 					tags.add(new Tag().withKey(tag3).withValue(tagValue3));
 				}
 
-				if (StringUtils.hasText(name) && StringUtils.hasText(value)) {
+				if (StringUtils.hasText(name) && Objects.nonNull(value)) {
 					parameterDtos.add(ParameterDto.builder().key(name).value(value).secure(secure).description(description).tags(tags).build());
 				}
 
@@ -166,7 +166,7 @@ public class ParameterStorePropertyManager {
 					System.err.println("Failed to Update Property: " + parameterDto.getKey() + " on Parameter Store");
 				}
 			} catch (Exception e) {
-				System.err.println("Error uploading parameter: " + e);
+				System.err.println("Error uploading parameter: " + parameterDto.getKey() + e);
 			}
 		}
 
